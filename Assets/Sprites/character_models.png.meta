@@ -1,10 +1,19 @@
 fileFormatVersion: 2
-guid: 530f046d61c6f984e8235633d6add780
+guid: 72efab4d145d92a4683f22cd073e3f4d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1979250894008961973
-    second: character models_0
+      213: 1889310827455807737
+    second: character_models_0
+  - first:
+      213: 1041035186010124061
+    second: character_models_1
+  - first:
+      213: -4286140397195315324
+    second: character_models_2
+  - first:
+      213: -3873805712241183305
+    second: character_models_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +46,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -100,23 +109,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: character models_0
+      name: character_models_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 640
-        height: 640
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 3
+        y: 48
+        width: 12
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5000003, y: 0.41370034}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5bb47ca9336b77b10800000000000000
-      internalID: 1979250894008961973
+      spriteID: 9f08dc4003e283a10800000000000000
+      internalID: 1889310827455807737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: character_models_1
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 48
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1fe0dc6cff727e00800000000000000
+      internalID: 1041035186010124061
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: character_models_2
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 32
+        width: 12
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 487b8b784029484c0800000000000000
+      internalID: -4286140397195315324
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: character_models_3
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 32
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b53cf0aa3a7d3ac0800000000000000
+      internalID: -3873805712241183305
       vertices: []
       indices: 
       edges: []
@@ -125,7 +200,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: b4c7db7b49d19664bbe84b6207624f0a
     internalID: 0
     vertices: []
     indices: 
@@ -133,9 +208,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      character models_0: 1979250894008961973
+      character_models_0: 1889310827455807737
+      character_models_1: 1041035186010124061
+      character_models_2: -4286140397195315324
+      character_models_3: -3873805712241183305
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
