@@ -2,14 +2,13 @@ using UnityEngine;
 
 public class interactionzone : MonoBehaviour
 {
-    // public GameObject ePrompt; // Assign in inspector
+    public GameObject spaceprompt; // Assign in inspector
     private GameObject currentTarget;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         Debug.Log("InteractionZone script started");
-        // ePrompt.SetActive(false);
     }
 
     // Update is called once per frame
@@ -24,12 +23,14 @@ public class interactionzone : MonoBehaviour
     
     void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log("=== ANY COLLISION DETECTED ===");
         Debug.Log("Trigger entered with: " + other.name + " (Tag: " + other.tag + ")");
         if (other.CompareTag("Interactable"))
         {
             Debug.Log("Setting current target to: " + other.name);
             currentTarget = other.gameObject;
-            // ePrompt.SetActive(true);
+            spaceprompt.SetActive(true);
+            Debug.Log("Space prompt activated");
         }
     }
 
@@ -45,10 +46,13 @@ public class interactionzone : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other)
     {
+        Debug.Log("Trigger exited with: " + other.name);
         if (other.gameObject == currentTarget)
         {
+            Debug.Log("Clearing current target");
             currentTarget = null;
-            // ePrompt.SetActive(false);
+            spaceprompt.SetActive(false);
+            Debug.Log("Space prompt deactivated");
         }
     }
 }
