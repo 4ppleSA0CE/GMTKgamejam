@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
 
     private float xPosLastFrame;
     private bool isMoving = false;
+    private float lastHorizontalInput = 0f;
     
     // Start is called before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -43,6 +44,12 @@ public class PlayerMovement : MonoBehaviour
         
         // Check if player is moving
         isMoving = direction.magnitude > 0.1f;
+        
+        // Store horizontal input for sprite flipping
+        if (Mathf.Abs(xInput) > 0.1f)
+        {
+            lastHorizontalInput = xInput;
+        }
     }
     
     private void UpdateSprite()
@@ -59,14 +66,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void FlipCharacterX()
     {
-        if (transform.position.x > xPosLastFrame)
+        // Only flip based on actual input direction, not position changes
+        if (lastHorizontalInput > 0.1f)
         {
-            spriteRenderer.flipX = false;
+            spriteRenderer.flipX = false; // Face right
         }
-        else if (transform.position.x < xPosLastFrame)
+        else if (lastHorizontalInput < -0.1f)
         {
-            spriteRenderer.flipX = true;
+            spriteRenderer.flipX = true; // Face left
         }
-        xPosLastFrame = transform.position.x; 
+        // If no horizontal input, keep the last direction
     }
 }
