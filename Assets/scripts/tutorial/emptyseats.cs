@@ -1,15 +1,15 @@
 using UnityEngine;
 
-public class singleseat : MonoBehaviour
+public class emptyseats : MonoBehaviour
 {
     void Start(){
-        Debug.Log("singleseat script started");
+        Debug.Log("emptyseats script started");
         // Script initialization
     }
     
     public void OnInteract()
     {
-        Debug.Log("Door opened!");
+        Debug.Log("wrong seat!");
         // You can trigger animation, dialogue, etc.
     }
 }
