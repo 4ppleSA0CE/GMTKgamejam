@@ -12,7 +12,8 @@ public class singleseat : MonoBehaviour
     // Sprite for message when key found
     public GameObject TextMessage_key;
 
-    public float time_of_message = 5f;
+    public float time_of_message = 1f;
+    // How long the message will be displayed
     void Start()
     {
         Debug.Log("singleseat script started");
