@@ -24,46 +24,21 @@ public class exit : MonoBehaviour
         if (playerInventory != null && playerInventory.crowbar)
         {
             Debug.Log("Exit unlocked! Transitioning to next scene...");
-            StartCoroutine(FadeToBlackAndLoadScene());
+            
+            // Check if SceneTransitionManager exists, create if it doesn't
+            if (SceneTransitionManager.Instance == null)
+            {
+                GameObject managerObj = new GameObject("SceneTransitionManager");
+                SceneTransitionManager manager = managerObj.AddComponent<SceneTransitionManager>();
+                // Force the setup to happen immediately
+                manager.SetupFadeCanvas();
+            }
+            
+            SceneTransitionManager.Instance.LoadSceneWithFade(nextSceneName);
         }
         else
         {
             Debug.Log("Exit is blocked. You need a crowbar to proceed.");
         }
-    }
-    
-    private System.Collections.IEnumerator FadeToBlackAndLoadScene()
-    {
-        // Create a black overlay
-        GameObject fadeObject = new GameObject("FadeOverlay");
-        Canvas canvas = fadeObject.AddComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        canvas.sortingOrder = 999; // Ensure it's on top
-        
-        // Create the black image
-        GameObject imageObject = new GameObject("BlackImage");
-        imageObject.transform.SetParent(fadeObject.transform, false);
-        UnityEngine.UI.Image blackImage = imageObject.AddComponent<UnityEngine.UI.Image>();
-        blackImage.color = new Color(0, 0, 0, 0); // Start transparent
-        
-        // Set the image to fill the screen
-        RectTransform rectTransform = imageObject.GetComponent<RectTransform>();
-        rectTransform.anchorMin = Vector2.zero;
-        rectTransform.anchorMax = Vector2.one;
-        rectTransform.offsetMin = Vector2.zero;
-        rectTransform.offsetMax = Vector2.zero;
-        
-        // Fade to black
-        float elapsedTime = 0f;
-        while (elapsedTime < fadeDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            float alpha = Mathf.Lerp(0f, 1f, elapsedTime / fadeDuration);
-            blackImage.color = new Color(0, 0, 0, alpha);
-            yield return null;
-        }
-        
-        // Load the next scene
-        SceneManager.LoadScene(nextSceneName);
     }
 }

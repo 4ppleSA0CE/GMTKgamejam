@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tutorial/Tutorial.unity
     guid: 4cc3d9e2e6cbd4ebc8dbdb7ef6694901
+  - enabled: 1
+    path: Assets/Scenes/Landing zone/Landing zone.unity
+    guid: 8250d5aa7f6dc45ffbeea06302812ff0
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

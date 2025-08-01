@@ -29,8 +29,11 @@ public class interactionzone : MonoBehaviour
         {
             Debug.Log("Setting current target to: " + other.name);
             currentTarget = other.gameObject;
-            spaceprompt.SetActive(true);
-            Debug.Log("Space prompt activated");
+            if (spaceprompt != null)
+            {
+                spaceprompt.SetActive(true);
+                Debug.Log("Space prompt activated");
+            }
         }
     }
 
@@ -51,8 +54,11 @@ public class interactionzone : MonoBehaviour
         {
             Debug.Log("Clearing current target");
             currentTarget = null;
-            spaceprompt.SetActive(false);
-            Debug.Log("Space prompt deactivated");
+            if (spaceprompt != null)
+            {
+                spaceprompt.SetActive(false);
+                Debug.Log("Space prompt deactivated");
+            }
         }
     }
 }
