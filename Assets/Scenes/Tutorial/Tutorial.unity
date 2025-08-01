@@ -689,7 +689,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerInventory: {fileID: 0}
-  nextSceneName: NextScene
+  nextSceneName: Landing zone
   fadeDuration: 2
 --- !u!61 &855726142
 BoxCollider2D:

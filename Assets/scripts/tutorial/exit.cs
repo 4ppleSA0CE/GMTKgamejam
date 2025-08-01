@@ -7,7 +7,7 @@ public class exit : MonoBehaviour
     public singleseat playerInventory;
     
     // Scene transition settings
-    public string nextSceneName = "NextScene"; // Change this to your next scene name
+    public string nextSceneName = "Landing zone"; // Change this to your next scene name
     public float fadeDuration = 2f;
     
     void Start()
