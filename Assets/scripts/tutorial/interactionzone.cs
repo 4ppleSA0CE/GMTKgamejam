@@ -3,6 +3,7 @@ using UnityEngine;
 public class interactionzone : MonoBehaviour
 {
     public GameObject spaceprompt; // Assign in inspector
+
     private GameObject currentTarget;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -36,17 +37,6 @@ public class interactionzone : MonoBehaviour
             }
         }
     }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        // Regular collision detection (if needed)
-    }
-
-    void OnTriggerStay2D(Collider2D other)
-    {
-        // Staying in trigger (if needed)
-    }
-
     void OnTriggerExit2D(Collider2D other)
     {
         Debug.Log("Trigger exited with: " + other.name);
