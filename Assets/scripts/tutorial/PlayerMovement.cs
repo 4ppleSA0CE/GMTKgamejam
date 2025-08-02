@@ -342,6 +342,10 @@ public class PlayerMovement : MonoBehaviour
 
                         // Go back to landing zone if dead
                         SceneManager.LoadScene("Landing zone");
+
+                        // Reset
+                        attempts = 0;
+                        deaths = 0;
                     }
                 }
             }
