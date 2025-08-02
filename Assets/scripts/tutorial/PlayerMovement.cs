@@ -28,6 +28,8 @@ public class PlayerMovement : MonoBehaviour
     private int bufferHead = 0;
     private int bufferCount = 0;
 
+    int attempts = 0;
+
     // Start is called before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -171,6 +173,16 @@ public class PlayerMovement : MonoBehaviour
                 directionBuffer[i3] == Direction.LEFT)
             {
                 Debug.Log("Sequence matched: RIGHT → DOWN → LEFT → LEFT");
+            }
+            else
+            {
+                attempts += 1;
+                Debug.Log("Sequence WRONG: " + attempts + "/4");
+
+                if (attempts >= 4)
+                {
+                    Debug.Log("4 ATTEMPTS WRONG, DEAD");
+                }
             }
         }
     }
