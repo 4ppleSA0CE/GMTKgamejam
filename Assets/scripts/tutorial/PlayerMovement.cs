@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 enum Direction
 {
@@ -29,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     private int bufferCount = 0;
 
     int attempts = 0;
+    int deaths = 0;
 
     // Start is called before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -176,12 +178,21 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                attempts += 1;
+                attempts++;
                 Debug.Log("Sequence WRONG: " + attempts + "/4");
 
                 if (attempts >= 4)
                 {
-                    Debug.Log("4 ATTEMPTS WRONG, DEAD");
+                    attempts = 0;
+                    deaths++;
+
+                    if (deaths >= 4)
+                    {
+                        Debug.Log("4 ATTEMPTS WRONG, DEAD");
+
+                        // Fade scene
+                        SceneTransitionManager.Instance.LoadSceneWithFade(SceneManager.GetActiveScene().name);
+                    }
                 }
             }
         }
