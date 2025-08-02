@@ -1,6 +1,14 @@
 using TMPro;
 using UnityEngine;
 
+enum Direction
+{
+    LEFT,
+    RIGHT,
+    UP,
+    DOWN
+}
+
 public class PlayerMovement : MonoBehaviour
 {
     public float speed;
@@ -15,6 +23,10 @@ public class PlayerMovement : MonoBehaviour
     private float xPosLastFrame;
     private bool isMoving = false;
     private float lastHorizontalInput = 0f;
+
+    private Direction[] directionBuffer = new Direction[4];
+    private int bufferHead = 0;
+    private int bufferCount = 0;
 
     // Start is called before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -90,6 +102,7 @@ public class PlayerMovement : MonoBehaviour
             // Exited left, wrap to right
             Vector3 newViewPos = new Vector3(1f, viewPos.y, viewPos.z);
             worldPos = Camera.main.ViewportToWorldPoint(newViewPos);
+            AddDirection(Direction.LEFT);
             wrapped = true;
         }
         else if (viewPos.x > 1f)
@@ -97,6 +110,7 @@ public class PlayerMovement : MonoBehaviour
             // Exited right, wrap to left
             Vector3 newViewPos = new Vector3(0f, viewPos.y, viewPos.z);
             worldPos = Camera.main.ViewportToWorldPoint(newViewPos);
+            AddDirection(Direction.RIGHT);
             wrapped = true;
         }
 
@@ -105,6 +119,7 @@ public class PlayerMovement : MonoBehaviour
             // Exited bottom, wrap to top
             Vector3 newViewPos = new Vector3(viewPos.x, 1f, viewPos.z);
             worldPos = Camera.main.ViewportToWorldPoint(newViewPos);
+            AddDirection(Direction.DOWN);
             wrapped = true;
         }
         else if (viewPos.y > 1f)
@@ -112,12 +127,34 @@ public class PlayerMovement : MonoBehaviour
             // Exited top, wrap to bottom
             Vector3 newViewPos = new Vector3(viewPos.x, 0f, viewPos.z);
             worldPos = Camera.main.ViewportToWorldPoint(newViewPos);
+            AddDirection(Direction.UP);
             wrapped = true;
         }
 
         if (wrapped)
         {
             body.position = new Vector2(worldPos.x, worldPos.y);
+            LogLast4Exits();
+        }
+    }
+
+    private void AddDirection(Direction dir)
+    {
+        directionBuffer[bufferHead] = dir;
+        bufferHead = (bufferHead + 1) % directionBuffer.Length;
+        if (bufferCount < directionBuffer.Length)
+        {
+            bufferCount++;
+        }
+    }
+
+    void LogLast4Exits()
+    {
+        Debug.Log("Last 4 exits:");
+        for (int i = 0; i < bufferCount; i++)
+        {
+            int index = (bufferHead - bufferCount + i + directionBuffer.Length) % directionBuffer.Length;
+            Debug.Log(directionBuffer[index]);
         }
     }
 }
