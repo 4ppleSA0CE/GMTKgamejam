@@ -51,7 +51,28 @@ public class PlayerMovement : MonoBehaviour
         MovementControl();
         UpdateSprite();
         FlipCharacterX();
-        ExitDetect();
+
+        string currentScene = SceneManager.GetActiveScene().name;
+
+        if (currentScene == "Tutorial")
+        {
+            
+        }
+        else if (currentScene == "maze")
+        {
+            ExitDetect();
+        }
+        else if (currentScene == "Landing zone")
+        {
+            LandingZoneExitDetect();
+        }
+        else if (currentScene == "TerminalOne")
+        {
+            TerminalOneExitDetect();
+        }
+        else {
+
+        }
     }
 
     private void MovementControl()
@@ -145,6 +166,126 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+<<<<<<< HEAD
+=======
+    private void LandingZoneExitDetect()
+    {
+        Vector3 viewPos = Camera.main.WorldToViewportPoint(body.position);
+        bool shouldTransition = false;
+        Direction exitDirection = Direction.RIGHT;
+
+        if (viewPos.x < 0f)
+        {
+            // Exited left
+            exitDirection = Direction.LEFT;
+            shouldTransition = true;
+        }
+        else if (viewPos.x > 1f)
+        {
+            // Exited right
+            exitDirection = Direction.RIGHT;
+            shouldTransition = true;
+        }
+        else if (viewPos.y < 0f)
+        {
+            // Exited bottom
+            exitDirection = Direction.DOWN;
+            shouldTransition = true;
+        }
+        else if (viewPos.y > 1f)
+        {
+            // Exited top
+            exitDirection = Direction.UP;
+            shouldTransition = true;
+        }
+
+        if (shouldTransition)
+        {
+            // Store the exit direction for spawn positioning
+            lastExitDirection = exitDirection;
+            Debug.Log($"Landing zone exit detected: {exitDirection}, transitioning to maze");
+            
+            // Instantly transition to maze scene
+            SceneManager.LoadScene("maze");
+        }
+    }
+
+    private void TerminalOneExitDetect()
+    {
+        Vector3 viewPos = Camera.main.WorldToViewportPoint(body.position);
+        bool shouldTransition = false;
+        Direction exitDirection = Direction.RIGHT;
+
+        if (viewPos.x < 0f)
+        {
+            // Exited left
+            exitDirection = Direction.LEFT;
+            shouldTransition = true;
+        }
+        else if (viewPos.x > 1f)
+        {
+            // Exited right
+            exitDirection = Direction.RIGHT;
+            shouldTransition = true;
+        }
+        else if (viewPos.y < 0f)
+        {
+            // Exited bottom
+            exitDirection = Direction.DOWN;
+            shouldTransition = true;
+        }
+        else if (viewPos.y > 1f)
+        {
+            // Exited top
+            exitDirection = Direction.UP;
+            shouldTransition = true;
+        }
+
+        if (shouldTransition)
+        {
+            // Store the exit direction for spawn positioning
+            lastExitDirection = exitDirection;
+            Debug.Log($"TerminalOne exit detected: {exitDirection}, transitioning to maze");
+            
+            // Instantly transition to maze scene
+            SceneManager.LoadScene("Landing zone");
+        }
+    }
+
+    private void PositionPlayerBasedOnExitDirection()
+    {
+        // Get camera bounds
+        Camera cam = Camera.main;
+        if (cam == null) return;
+        
+        Vector3 spawnPosition = Vector3.zero;
+        
+        switch (lastExitDirection)
+        {
+            case Direction.LEFT:
+                // Spawn on right side
+                spawnPosition = cam.ViewportToWorldPoint(new Vector3(1f, 0.5f, 0f));
+                break;
+            case Direction.RIGHT:
+                // Spawn on left side
+                spawnPosition = cam.ViewportToWorldPoint(new Vector3(0f, 0.5f, 0f));
+                break;
+            case Direction.UP:
+                // Spawn on bottom
+                spawnPosition = cam.ViewportToWorldPoint(new Vector3(0.5f, 0f, 0f));
+                break;
+            case Direction.DOWN:
+                // Spawn on top
+                spawnPosition = cam.ViewportToWorldPoint(new Vector3(0.5f, 1f, 0f));
+                break;
+        }
+        
+        // Set player position
+        transform.position = new Vector3(spawnPosition.x, spawnPosition.y, transform.position.z);
+        Debug.Log($"Player spawned at position: {spawnPosition} based on exit direction: {lastExitDirection}");
+    }
+
+>>>>>>> 79c6413 (update player movement)
     private void AddDirection(Direction dir)
     {
         directionBuffer[bufferHead] = dir;
