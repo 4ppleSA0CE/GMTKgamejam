@@ -166,8 +166,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
-=======
     private void LandingZoneExitDetect()
     {
         Vector3 viewPos = Camera.main.WorldToViewportPoint(body.position);
@@ -285,7 +283,6 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log($"Player spawned at position: {spawnPosition} based on exit direction: {lastExitDirection}");
     }
 
->>>>>>> 79c6413 (update player movement)
     private void AddDirection(Direction dir)
     {
         directionBuffer[bufferHead] = dir;
