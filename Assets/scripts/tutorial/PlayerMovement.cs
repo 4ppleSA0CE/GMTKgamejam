@@ -319,9 +319,9 @@ public class PlayerMovement : MonoBehaviour
             int i3 = (bufferHead - 1 + directionBuffer.Length) % directionBuffer.Length;
 
             if (directionBuffer[i0] == Direction.DOWN &&
-                directionBuffer[i1] == Direction.LEFT &&
-                directionBuffer[i2] == Direction.UP &&
-                directionBuffer[i3] == Direction.RIGHT)
+                directionBuffer[i1] == Direction.DOWN &&
+                directionBuffer[i2] == Direction.DOWN &&
+                directionBuffer[i3] == Direction.DOWN)
             {
                 Debug.Log("Sequence matched");
                 SceneManager.LoadScene("TerminalOne");
