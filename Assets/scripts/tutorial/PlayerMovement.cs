@@ -340,17 +340,8 @@ public class PlayerMovement : MonoBehaviour
                     {
                         Debug.Log("4 ATTEMPTS WRONG, DEAD");
 
-                        // Fade scene
-                        // Check if SceneTransitionManager exists, create if it doesn't
-                        if (SceneTransitionManager.Instance == null)
-                        {
-                            GameObject managerObj = new GameObject("SceneTransitionManager");
-                            SceneTransitionManager manager = managerObj.AddComponent<SceneTransitionManager>();
-                            // Force the setup to happen immediately
-                            manager.SetupFadeCanvas();
-                        }
-
-                        SceneTransitionManager.Instance.LoadSceneWithFade(nextSceneName);
+                        // Go back to landing zone if dead
+                        SceneManager.LoadScene("Landing zone");
                     }
                 }
             }
