@@ -28,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     private Direction[] directionBuffer = new Direction[4];
     private int bufferHead = 0;
     private int bufferCount = 0;
+    private static Direction lastExitDirection = Direction.RIGHT; // Store exit direction from landing zone (static to persist across scenes)
 
     public string nextSceneName = "Landing zone"; // Change this to your next scene name
     public float fadeDuration = 2f;
@@ -42,6 +43,13 @@ public class PlayerMovement : MonoBehaviour
         if (idleSprite != null)
         {
             spriteRenderer.sprite = idleSprite;
+        }
+        
+        // Handle spawn positioning for maze scene
+        string currentScene = SceneManager.GetActiveScene().name;
+        if (currentScene == "maze")
+        {
+            PositionPlayerBasedOnExitDirection();
         }
     }
 
@@ -61,6 +69,10 @@ public class PlayerMovement : MonoBehaviour
         else if (currentScene == "maze")
         {
             ExitDetect();
+        }
+        else if (currentScene == "Landing zone")
+        {
+            LandingZoneExitDetect();
         }
         else {
 
@@ -156,6 +168,81 @@ public class PlayerMovement : MonoBehaviour
             body.position = new Vector2(worldPos.x, worldPos.y);
             LogLast4Exits();
         }
+    }
+
+    private void LandingZoneExitDetect()
+    {
+        Vector3 viewPos = Camera.main.WorldToViewportPoint(body.position);
+        bool shouldTransition = false;
+        Direction exitDirection = Direction.RIGHT;
+
+        if (viewPos.x < 0f)
+        {
+            // Exited left
+            exitDirection = Direction.LEFT;
+            shouldTransition = true;
+        }
+        else if (viewPos.x > 1f)
+        {
+            // Exited right
+            exitDirection = Direction.RIGHT;
+            shouldTransition = true;
+        }
+        else if (viewPos.y < 0f)
+        {
+            // Exited bottom
+            exitDirection = Direction.DOWN;
+            shouldTransition = true;
+        }
+        else if (viewPos.y > 1f)
+        {
+            // Exited top
+            exitDirection = Direction.UP;
+            shouldTransition = true;
+        }
+
+        if (shouldTransition)
+        {
+            // Store the exit direction for spawn positioning
+            lastExitDirection = exitDirection;
+            Debug.Log($"Landing zone exit detected: {exitDirection}, transitioning to maze");
+            
+            // Instantly transition to maze scene
+            SceneManager.LoadScene("maze");
+        }
+    }
+
+    private void PositionPlayerBasedOnExitDirection()
+    {
+        // Get camera bounds
+        Camera cam = Camera.main;
+        if (cam == null) return;
+        
+        Vector3 spawnPosition = Vector3.zero;
+        
+        switch (lastExitDirection)
+        {
+            case Direction.LEFT:
+                // Spawn on right side
+                spawnPosition = cam.ViewportToWorldPoint(new Vector3(1f, 0.5f, 0f));
+                break;
+            case Direction.RIGHT:
+                // Spawn on left side
+                spawnPosition = cam.ViewportToWorldPoint(new Vector3(0f, 0.5f, 0f));
+                break;
+            case Direction.UP:
+                // Spawn on bottom
+                spawnPosition = cam.ViewportToWorldPoint(new Vector3(0.5f, 0f, 0f));
+                break;
+            case Direction.DOWN:
+                // Spawn on top
+                spawnPosition = cam.ViewportToWorldPoint(new Vector3(0.5f, 1f, 0f));
+                break;
+        }
+        
+        // Set player position
+        transform.position = new Vector3(spawnPosition.x, spawnPosition.y, transform.position.z);
+        Debug.Log($"Player spawned at position: {spawnPosition} based on exit direction: {lastExitDirection}");
     }
 
     private void AddDirection(Direction dir)
