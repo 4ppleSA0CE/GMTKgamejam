@@ -33,6 +33,7 @@ public class exit : MonoBehaviour
         if (playerInventory != null && playerInventory.crowbar)
         {
             Debug.Log("Exit unlocked! Transitioning to next scene...");
+            crowbarSprite.SetActive(false);
             // Check if SceneTransitionManager exists, create if it doesn't
             if (SceneTransitionManager.Instance == null)
             {

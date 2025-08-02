@@ -11,6 +11,8 @@ public class chest : MonoBehaviour
     public float time_of_message = 1f;
     // How long the message will be displayed
 
+    public GameObject crowbarSprite;
+
     // Reference to the singleseat script to access the key variable
     public singleseat playerInventory;
 
@@ -30,6 +32,8 @@ public class chest : MonoBehaviour
         {
             Debug.Log("Chest opened with key!");
             playerInventory.crowbar = true;
+            keySprite.SetActive(false);
+            crowbarSprite.SetActive(true);
             Debug.Log("Crowbar obtained! Crowbar status: " + playerInventory.crowbar);
             // You can trigger chest opening animation, sound, etc.
             StartCoroutine(ShowChestUnlockedMessage()); // Start the coroutine

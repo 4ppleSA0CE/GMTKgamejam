@@ -11,6 +11,7 @@ public class singleseat : MonoBehaviour
 
     // Sprite for message when key found
     public GameObject TextMessage_key;
+    public GameObject keySprite;
 
     public float time_of_message = 1f;
     // How long the message will be displayed
@@ -25,6 +26,7 @@ public class singleseat : MonoBehaviour
         // Text message sprite active when interacted
         Debug.Log("Key obtained!");
         key = true;
+        keySprite.SetActive(true);
         Debug.Log("Key status: " + key);
         StartCoroutine(ShowKeyMessage()); // Start the coroutine
         // You can trigger animation, dialogue, etc.
