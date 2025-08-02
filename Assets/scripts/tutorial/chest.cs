@@ -32,7 +32,7 @@ public class chest : MonoBehaviour
         {
             Debug.Log("Chest opened with key!");
             playerInventory.crowbar = true;
-            keySprite.SetActive(false);
+            playerInventory.keySprite.SetActive(false);
             crowbarSprite.SetActive(true);
             Debug.Log("Crowbar obtained! Crowbar status: " + playerInventory.crowbar);
             // You can trigger chest opening animation, sound, etc.

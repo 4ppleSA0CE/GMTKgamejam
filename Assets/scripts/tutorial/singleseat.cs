@@ -12,6 +12,7 @@ public class singleseat : MonoBehaviour
     // Sprite for message when key found
     public GameObject TextMessage_key;
     public GameObject keySprite;
+    public GameObject crowbarSprite;
 
     public float time_of_message = 1f;
     // How long the message will be displayed
