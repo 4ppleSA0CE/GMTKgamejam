@@ -74,6 +74,10 @@ public class PlayerMovement : MonoBehaviour
         {
             LandingZoneExitDetect();
         }
+        else if (currentScene == "TerminalOne")
+        {
+            TerminalOneExitDetect();
+        }
         else {
 
         }
@@ -212,6 +216,48 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void TerminalOneExitDetect()
+    {
+        Vector3 viewPos = Camera.main.WorldToViewportPoint(body.position);
+        bool shouldTransition = false;
+        Direction exitDirection = Direction.RIGHT;
+
+        if (viewPos.x < 0f)
+        {
+            // Exited left
+            exitDirection = Direction.LEFT;
+            shouldTransition = true;
+        }
+        else if (viewPos.x > 1f)
+        {
+            // Exited right
+            exitDirection = Direction.RIGHT;
+            shouldTransition = true;
+        }
+        else if (viewPos.y < 0f)
+        {
+            // Exited bottom
+            exitDirection = Direction.DOWN;
+            shouldTransition = true;
+        }
+        else if (viewPos.y > 1f)
+        {
+            // Exited top
+            exitDirection = Direction.UP;
+            shouldTransition = true;
+        }
+
+        if (shouldTransition)
+        {
+            // Store the exit direction for spawn positioning
+            lastExitDirection = exitDirection;
+            Debug.Log($"TerminalOne exit detected: {exitDirection}, transitioning to maze");
+            
+            // Instantly transition to maze scene
+            SceneManager.LoadScene("Landing zone");
+        }
+    }
+
     private void PositionPlayerBasedOnExitDirection()
     {
         // Get camera bounds
@@ -264,7 +310,7 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log(directionBuffer[index]);
         }
 
-        // Check for RIGHT, DOWN, LEFT, LEFT
+        // Check for RIGHT, DOWN, LEFT, UP
         if (bufferCount >= 4)
         {
             int i0 = (bufferHead - 4 + directionBuffer.Length) % directionBuffer.Length;
@@ -272,12 +318,13 @@ public class PlayerMovement : MonoBehaviour
             int i2 = (bufferHead - 2 + directionBuffer.Length) % directionBuffer.Length;
             int i3 = (bufferHead - 1 + directionBuffer.Length) % directionBuffer.Length;
 
-            if (directionBuffer[i0] == Direction.RIGHT &&
-                directionBuffer[i1] == Direction.DOWN &&
-                directionBuffer[i2] == Direction.LEFT &&
-                directionBuffer[i3] == Direction.LEFT)
+            if (directionBuffer[i0] == Direction.DOWN &&
+                directionBuffer[i1] == Direction.LEFT &&
+                directionBuffer[i2] == Direction.UP &&
+                directionBuffer[i3] == Direction.RIGHT)
             {
-                Debug.Log("Sequence matched: RIGHT → DOWN → LEFT → LEFT");
+                Debug.Log("Sequence matched: RIGHT → DOWN → LEFT → UP");
+                SceneManager.LoadScene("TerminalOne");
             }
             else
             {
