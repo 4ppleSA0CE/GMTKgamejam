@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D body;
 
     [SerializeField] private SpriteRenderer spriteRenderer;
-    
+
     // Add sprite references for idle and running
     [SerializeField] private Sprite idleSprite;
     [SerializeField] private Sprite runningSprite;
@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
     private float xPosLastFrame;
     private bool isMoving = false;
     private float lastHorizontalInput = 0f;
-    
+
     // Start is called before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -32,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
         MovementControl();
         UpdateSprite();
         FlipCharacterX();
+        ExitDetect();
     }
 
     private void MovementControl()
@@ -41,17 +42,17 @@ public class PlayerMovement : MonoBehaviour
 
         Vector2 direction = new Vector2(xInput, yInput).normalized;
         body.linearVelocity = direction * speed;
-        
+
         // Check if player is moving
         isMoving = direction.magnitude > 0.1f;
-        
+
         // Store horizontal input for sprite flipping
         if (Mathf.Abs(xInput) > 0.1f)
         {
             lastHorizontalInput = xInput;
         }
     }
-    
+
     private void UpdateSprite()
     {
         if (isMoving && runningSprite != null)
@@ -76,5 +77,20 @@ public class PlayerMovement : MonoBehaviour
             spriteRenderer.flipX = true; // Face left
         }
         // If no horizontal input, keep the last direction
+    }
+
+    private void ExitDetect()
+    {
+        Vector3 viewPos = Camera.main.WorldToViewportPoint(body.position);
+
+        // Log the viewport position
+        Debug.Log($"Viewport Pos: {viewPos}");
+
+        // Detect if out of bounds (screen space is 0 to 1 in x and y)
+        if (viewPos.x < 0 || viewPos.x > 1 || viewPos.y < 0 || viewPos.y > 1)
+        {
+            Debug.Log("Object is out of the camera view!");
+            // Do something, like switch scene or reposition
+        }
     }
 }
