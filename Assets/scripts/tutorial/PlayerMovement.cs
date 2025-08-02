@@ -323,7 +323,7 @@ public class PlayerMovement : MonoBehaviour
                 directionBuffer[i2] == Direction.UP &&
                 directionBuffer[i3] == Direction.RIGHT)
             {
-                Debug.Log("Sequence matched: RIGHT → DOWN → LEFT → UP");
+                Debug.Log("Sequence matched");
                 SceneManager.LoadScene("TerminalOne");
             }
             else
