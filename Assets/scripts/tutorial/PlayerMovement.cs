@@ -51,7 +51,20 @@ public class PlayerMovement : MonoBehaviour
         MovementControl();
         UpdateSprite();
         FlipCharacterX();
-        ExitDetect();
+
+        string currentScene = SceneManager.GetActiveScene().name;
+
+        if (currentScene == "Tutorial")
+        {
+            
+        }
+        else if (currentScene == "maze")
+        {
+            ExitDetect();
+        }
+        else {
+
+        }
     }
 
     private void MovementControl()
