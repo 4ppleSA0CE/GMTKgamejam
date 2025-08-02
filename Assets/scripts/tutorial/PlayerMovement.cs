@@ -28,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     private Direction[] directionBuffer = new Direction[4];
     private int bufferHead = 0;
     private int bufferCount = 0;
+    private static Direction lastExitDirection = Direction.RIGHT; // Store exit direction from landing zone (static to persist across scenes)
 
     public string nextSceneName = "Landing zone"; // Change this to your next scene name
     public float fadeDuration = 2f;
@@ -42,6 +43,13 @@ public class PlayerMovement : MonoBehaviour
         if (idleSprite != null)
         {
             spriteRenderer.sprite = idleSprite;
+        }
+        
+        // Handle spawn positioning for maze scene
+        string currentScene = SceneManager.GetActiveScene().name;
+        if (currentScene == "maze")
+        {
+            PositionPlayerBasedOnExitDirection();
         }
     }
 
