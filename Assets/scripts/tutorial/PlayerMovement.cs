@@ -156,5 +156,22 @@ public class PlayerMovement : MonoBehaviour
             int index = (bufferHead - bufferCount + i + directionBuffer.Length) % directionBuffer.Length;
             Debug.Log(directionBuffer[index]);
         }
+
+        // Check for RIGHT, DOWN, LEFT, LEFT
+        if (bufferCount >= 4)
+        {
+            int i0 = (bufferHead - 4 + directionBuffer.Length) % directionBuffer.Length;
+            int i1 = (bufferHead - 3 + directionBuffer.Length) % directionBuffer.Length;
+            int i2 = (bufferHead - 2 + directionBuffer.Length) % directionBuffer.Length;
+            int i3 = (bufferHead - 1 + directionBuffer.Length) % directionBuffer.Length;
+
+            if (directionBuffer[i0] == Direction.RIGHT &&
+                directionBuffer[i1] == Direction.DOWN &&
+                directionBuffer[i2] == Direction.LEFT &&
+                directionBuffer[i3] == Direction.LEFT)
+            {
+                Debug.Log("Sequence matched: RIGHT → DOWN → LEFT → LEFT");
+            }
+        }
     }
 }
