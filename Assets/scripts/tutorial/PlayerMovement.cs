@@ -29,6 +29,9 @@ public class PlayerMovement : MonoBehaviour
     private int bufferHead = 0;
     private int bufferCount = 0;
 
+    public string nextSceneName = "Landing zone"; // Change this to your next scene name
+    public float fadeDuration = 2f;
+
     int attempts = 0;
     int deaths = 0;
 
@@ -191,7 +194,16 @@ public class PlayerMovement : MonoBehaviour
                         Debug.Log("4 ATTEMPTS WRONG, DEAD");
 
                         // Fade scene
-                        SceneTransitionManager.Instance.LoadSceneWithFade(SceneManager.GetActiveScene().name);
+                        // Check if SceneTransitionManager exists, create if it doesn't
+                        if (SceneTransitionManager.Instance == null)
+                        {
+                            GameObject managerObj = new GameObject("SceneTransitionManager");
+                            SceneTransitionManager manager = managerObj.AddComponent<SceneTransitionManager>();
+                            // Force the setup to happen immediately
+                            manager.SetupFadeCanvas();
+                        }
+
+                        SceneTransitionManager.Instance.LoadSceneWithFade(nextSceneName);
                     }
                 }
             }
