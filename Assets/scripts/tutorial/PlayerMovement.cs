@@ -64,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (currentScene == "Tutorial")
         {
-            
+
         }
         else if (currentScene == "maze")
         {
@@ -78,8 +78,13 @@ public class PlayerMovement : MonoBehaviour
         {
             TerminalOneExitDetect();
         }
-        else {
-
+        else if (currentScene == "terminalone landing")
+        {
+            TerminalOneLandingExitDetect();
+        }
+        else
+        {
+            Debug.Log("Unknown scene: " + currentScene);
         }
     }
 
@@ -216,6 +221,48 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void TerminalOneLandingExitDetect()
+    {
+        Vector3 viewPos = Camera.main.WorldToViewportPoint(body.position);
+        bool shouldTransition = false;
+        Direction exitDirection = Direction.RIGHT;
+
+        if (viewPos.x < 0f)
+        {
+            // Exited left
+            exitDirection = Direction.LEFT;
+            shouldTransition = true;
+        }
+        else if (viewPos.x > 1f)
+        {
+            // Exited right
+            exitDirection = Direction.RIGHT;
+            shouldTransition = true;
+        }
+        else if (viewPos.y < 0f)
+        {
+            // Exited bottom
+            exitDirection = Direction.DOWN;
+            shouldTransition = true;
+        }
+        else if (viewPos.y > 1f)
+        {
+            // Exited top
+            exitDirection = Direction.UP;
+            shouldTransition = true;
+        }
+
+        if (shouldTransition)
+        {
+            // Store the exit direction for spawn positioning
+            lastExitDirection = exitDirection;
+            Debug.Log($"TerminalOneLanding exit detected: {exitDirection}, transitioning to maze");
+
+            // Instantly transition to maze scene
+            SceneManager.LoadScene("maze");
+        }
+    }
+
     private void TerminalOneExitDetect()
     {
         Vector3 viewPos = Camera.main.WorldToViewportPoint(body.position);
@@ -252,7 +299,7 @@ public class PlayerMovement : MonoBehaviour
             // Store the exit direction for spawn positioning
             lastExitDirection = exitDirection;
             Debug.Log($"TerminalOne exit detected: {exitDirection}, transitioning to maze");
-            
+
             // Instantly transition to maze scene
             SceneManager.LoadScene("Landing zone");
         }
