@@ -82,15 +82,42 @@ public class PlayerMovement : MonoBehaviour
     private void ExitDetect()
     {
         Vector3 viewPos = Camera.main.WorldToViewportPoint(body.position);
+        Vector3 worldPos = body.position;
+        bool wrapped = false;
 
-        // Log the viewport position
-        Debug.Log($"Viewport Pos: {viewPos}");
-
-        // Detect if out of bounds (screen space is 0 to 1 in x and y)
-        if (viewPos.x < 0 || viewPos.x > 1 || viewPos.y < 0 || viewPos.y > 1)
+        if (viewPos.x < 0f)
         {
-            Debug.Log("Object is out of the camera view!");
-            // Do something, like switch scene or reposition
+            // Exited left, wrap to right
+            Vector3 newViewPos = new Vector3(1f, viewPos.y, viewPos.z);
+            worldPos = Camera.main.ViewportToWorldPoint(newViewPos);
+            wrapped = true;
+        }
+        else if (viewPos.x > 1f)
+        {
+            // Exited right, wrap to left
+            Vector3 newViewPos = new Vector3(0f, viewPos.y, viewPos.z);
+            worldPos = Camera.main.ViewportToWorldPoint(newViewPos);
+            wrapped = true;
+        }
+
+        if (viewPos.y < 0f)
+        {
+            // Exited bottom, wrap to top
+            Vector3 newViewPos = new Vector3(viewPos.x, 1f, viewPos.z);
+            worldPos = Camera.main.ViewportToWorldPoint(newViewPos);
+            wrapped = true;
+        }
+        else if (viewPos.y > 1f)
+        {
+            // Exited top, wrap to bottom
+            Vector3 newViewPos = new Vector3(viewPos.x, 0f, viewPos.z);
+            worldPos = Camera.main.ViewportToWorldPoint(newViewPos);
+            wrapped = true;
+        }
+
+        if (wrapped)
+        {
+            body.position = new Vector2(worldPos.x, worldPos.y);
         }
     }
 }
