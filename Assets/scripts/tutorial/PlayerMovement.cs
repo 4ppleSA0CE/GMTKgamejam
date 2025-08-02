@@ -164,7 +164,7 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log(directionBuffer[index]);
         }
 
-        // Check for RIGHT, DOWN, LEFT, LEFT
+        // Check for RIGHT, DOWN, LEFT, UP
         if (bufferCount >= 4)
         {
             int i0 = (bufferHead - 4 + directionBuffer.Length) % directionBuffer.Length;
@@ -172,12 +172,13 @@ public class PlayerMovement : MonoBehaviour
             int i2 = (bufferHead - 2 + directionBuffer.Length) % directionBuffer.Length;
             int i3 = (bufferHead - 1 + directionBuffer.Length) % directionBuffer.Length;
 
-            if (directionBuffer[i0] == Direction.RIGHT &&
-                directionBuffer[i1] == Direction.DOWN &&
-                directionBuffer[i2] == Direction.LEFT &&
-                directionBuffer[i3] == Direction.LEFT)
+            if (directionBuffer[i0] == Direction.DOWN &&
+                directionBuffer[i1] == Direction.LEFT &&
+                directionBuffer[i2] == Direction.UP &&
+                directionBuffer[i3] == Direction.RIGHT)
             {
-                Debug.Log("Sequence matched: RIGHT → DOWN → LEFT → LEFT");
+                Debug.Log("Sequence matched: RIGHT → DOWN → LEFT → UP");
+                SceneManager.LoadScene("TerminalOne");
             }
             else
             {
