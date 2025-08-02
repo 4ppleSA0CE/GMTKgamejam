@@ -319,11 +319,11 @@ public class PlayerMovement : MonoBehaviour
             int i3 = (bufferHead - 1 + directionBuffer.Length) % directionBuffer.Length;
 
             if (directionBuffer[i0] == Direction.DOWN &&
-                directionBuffer[i1] == Direction.LEFT &&
-                directionBuffer[i2] == Direction.UP &&
-                directionBuffer[i3] == Direction.RIGHT)
+                directionBuffer[i1] == Direction.DOWN &&
+                directionBuffer[i2] == Direction.DOWN &&
+                directionBuffer[i3] == Direction.DOWN)
             {
-                Debug.Log("Sequence matched: RIGHT → DOWN → LEFT → UP");
+                Debug.Log("Sequence matched");
                 SceneManager.LoadScene("TerminalOne");
             }
             else
@@ -340,17 +340,12 @@ public class PlayerMovement : MonoBehaviour
                     {
                         Debug.Log("4 ATTEMPTS WRONG, DEAD");
 
-                        // Fade scene
-                        // Check if SceneTransitionManager exists, create if it doesn't
-                        if (SceneTransitionManager.Instance == null)
-                        {
-                            GameObject managerObj = new GameObject("SceneTransitionManager");
-                            SceneTransitionManager manager = managerObj.AddComponent<SceneTransitionManager>();
-                            // Force the setup to happen immediately
-                            manager.SetupFadeCanvas();
-                        }
+                        // Go back to landing zone if dead
+                        SceneManager.LoadScene("Landing zone");
 
-                        SceneTransitionManager.Instance.LoadSceneWithFade(nextSceneName);
+                        // Reset
+                        attempts = 0;
+                        deaths = 0;
                     }
                 }
             }
