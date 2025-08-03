@@ -291,8 +291,8 @@ public class Puzzle2Manager : MonoBehaviour
         gameWon = true;
         Debug.Log("Congratulations! You found all " + piecesToFind + " pieces!");
 
-        // add ending screen
-        // StartCoroutine(FadeOutAndLoadScene(landingZoneScene));
+        // Just fade to black without loading a new scene
+        StartCoroutine(FadeToBlack());
     }
 
     void GameLost()
@@ -311,17 +311,17 @@ public class Puzzle2Manager : MonoBehaviour
         StartCoroutine(FadeOutAndLoadScene(landingZoneScene));
     }
 
-    System.Collections.IEnumerator FadeOutAndLoadScene(string sceneName)
+        System.Collections.IEnumerator FadeOutAndLoadScene(string sceneName)
     {
         Debug.Log("Starting fade to black for scene transition...");
-
+        
         if (fadeImage == null)
         {
             Debug.LogError("Fade image is null! Cannot fade to black.");
             SceneManager.LoadScene(sceneName);
             yield break;
         }
-
+        
         // Fade to black
         float elapsedTime = 0f;
         while (elapsedTime < fadeDuration)
@@ -331,16 +331,41 @@ public class Puzzle2Manager : MonoBehaviour
             fadeImage.color = new Color(0f, 0f, 0f, alpha);
             yield return null;
         }
-
+        
         // Ensure screen is completely black
         fadeImage.color = new Color(0f, 0f, 0f, 1f);
         Debug.Log("Fade complete. Loading scene: " + sceneName);
-
+        
         // Wait a moment on black screen
         yield return new WaitForSeconds(sceneTransitionDelay);
-
+        
         // Load the scene
         SceneManager.LoadScene(sceneName);
+    }
+    
+    System.Collections.IEnumerator FadeToBlack()
+    {
+        Debug.Log("Starting fade to black for game win...");
+        
+        if (fadeImage == null)
+        {
+            Debug.LogError("Fade image is null! Cannot fade to black.");
+            yield break;
+        }
+        
+        // Fade to black
+        float elapsedTime = 0f;
+        while (elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float alpha = Mathf.Lerp(0f, 1f, elapsedTime / fadeDuration);
+            fadeImage.color = new Color(0f, 0f, 0f, alpha);
+            yield return null;
+        }
+        
+        // Ensure screen is completely black
+        fadeImage.color = new Color(0f, 0f, 0f, 1f);
+        Debug.Log("Game won - screen faded to black");
     }
 
     // Public method to reset puzzle (for testing or restart)
