@@ -34,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
     private int bufferHead = 0;
     private int bufferCount = 0;
     private static Direction lastExitDirection = Direction.RIGHT; // Store exit direction from landing zone (static to persist across scenes)
+    private bool hasPositionedInLandingZone = false; // Track if we've positioned the player in landing zone
 
     public string nextSceneName = "Landing zone"; // Change this to your next scene name
     public float fadeDuration = 2f;
@@ -98,6 +99,9 @@ public class PlayerMovement : MonoBehaviour
             spriteRenderer.sprite = idleSprite;
         }
         
+        // Reset positioning flag for new scene
+        hasPositionedInLandingZone = false;
+        
         // Handle spawn positioning for different scenes
         string currentScene = SceneManager.GetActiveScene().name;
         if (currentScene == "maze")
@@ -107,6 +111,17 @@ public class PlayerMovement : MonoBehaviour
         else if (currentScene == "Landing zone")
         {
             PositionPlayerInLandingZone();
+        }
+    }
+
+    void LateUpdate()
+    {
+        // Ensure landing zone positioning is applied after all other scripts
+        string currentScene = SceneManager.GetActiveScene().name;
+        if (currentScene == "Landing zone" && !hasPositionedInLandingZone)
+        {
+            PositionPlayerInLandingZone();
+            hasPositionedInLandingZone = true;
         }
     }
 
@@ -123,7 +138,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (currentScene == "Tutorial")
         {
-
+            TutorialExitDetect();
         }
         else if (currentScene == "maze")
         {
@@ -284,7 +299,49 @@ public class PlayerMovement : MonoBehaviour
             lastExitDirection = exitDirection;
             Debug.Log($"Deoderant exit detected: {exitDirection}, transitioning to landing zone");
 
-            // Instantly transition to maze scene
+            // Instantly transition to landing zone scene
+            SceneManager.LoadScene("Landing zone");
+        }
+    }
+
+    private void TutorialExitDetect()
+    {
+        Vector3 viewPos = Camera.main.WorldToViewportPoint(body.position);
+        bool shouldTransition = false;
+        Direction exitDirection = Direction.RIGHT;
+
+        if (viewPos.x < 0f)
+        {
+            // Exited left
+            exitDirection = Direction.LEFT;
+            shouldTransition = true;
+        }
+        else if (viewPos.x > 1f)
+        {
+            // Exited right
+            exitDirection = Direction.RIGHT;
+            shouldTransition = true;
+        }
+        else if (viewPos.y < 0f)
+        {
+            // Exited bottom
+            exitDirection = Direction.DOWN;
+            shouldTransition = true;
+        }
+        else if (viewPos.y > 1f)
+        {
+            // Exited top
+            exitDirection = Direction.UP;
+            shouldTransition = true;
+        }
+
+        if (shouldTransition)
+        {
+            // Store the exit direction for spawn positioning
+            lastExitDirection = exitDirection;
+            Debug.Log($"Tutorial exit detected: {exitDirection}, transitioning to landing zone");
+
+            // Instantly transition to landing zone scene
             SceneManager.LoadScene("Landing zone");
         }
     }
@@ -492,28 +549,15 @@ public class PlayerMovement : MonoBehaviour
     
     private void PositionPlayerInLandingZone()
     {
-        // Position player at a safe location in the landing zone to avoid immediate exit
-        Vector3 spawnPosition = Vector3.zero;
+        // Always spawn the character at the specified coordinates when entering the landing zone
+        Vector3 spawnPosition = new Vector3(1.329138f, 3.818122f, transform.position.z);
         
-        // If coming from deodorant scene, position at center
-        if (lastExitDirection == Direction.LEFT || lastExitDirection == Direction.RIGHT)
-        {
-            // If coming from left or right, position at center
-            spawnPosition = new Vector3(0f, 0f, 0f);
-        }
-        else if (lastExitDirection == Direction.UP)
-        {
-            // If coming from top, position slightly below center
-            spawnPosition = new Vector3(0f, -2f, 0f);
-        }
-        else if (lastExitDirection == Direction.DOWN)
-        {
-            // If coming from bottom, position slightly above center
-            spawnPosition = new Vector3(0f, 2f, 0f);
-        }
-        
+        // Force the position to be set
         transform.position = spawnPosition;
-        Debug.Log($"Player positioned in Landing Zone at {spawnPosition} based on exit direction: {lastExitDirection}");
+        body.position = new Vector2(spawnPosition.x, spawnPosition.y);
+        
+        Debug.Log($"Player positioned in Landing Zone at fixed coordinates: {spawnPosition}");
+        Debug.Log($"Transform position: {transform.position}, Body position: {body.position}");
     }
 
     private void AddDirection(Direction dir)
