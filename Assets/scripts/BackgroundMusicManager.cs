@@ -7,6 +7,7 @@ public class BackgroundMusicManager : MonoBehaviour
     [Header("Background Music")]
     [SerializeField] AudioSource background;
     public AudioClip backgroundMusic;
+    [SerializeField] [Range(0f, 1f)] private float backgroundVolume = 0.3f; // Lower default volume
     
     void Awake()
     {
@@ -29,8 +30,9 @@ public class BackgroundMusicManager : MonoBehaviour
         {
             background.clip = backgroundMusic;
             background.loop = true; // Make sure it loops
+            background.volume = backgroundVolume; // Set the lower volume
             background.Play();
-            Debug.Log("Background music started: " + backgroundMusic.name);
+            Debug.Log("Background music started: " + backgroundMusic.name + " at volume: " + backgroundVolume);
         }
         else
         {
