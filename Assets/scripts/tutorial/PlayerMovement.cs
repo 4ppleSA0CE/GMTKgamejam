@@ -642,9 +642,9 @@ public class PlayerMovement : MonoBehaviour
                        directionBuffer[i2] == Direction.DOWN &&
                        directionBuffer[i3] == Direction.DOWN;
                 }
-                return directionBuffer[i0] == Direction.UP &&
+                return directionBuffer[i0] == Direction.DOWN &&
                        directionBuffer[i1] == Direction.LEFT &&
-                       directionBuffer[i2] == Direction.DOWN &&
+                       directionBuffer[i2] == Direction.UP &&
                        directionBuffer[i3] == Direction.RIGHT;
             }
             else
