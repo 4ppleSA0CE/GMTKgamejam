@@ -435,7 +435,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 412c9d5c93589d54c9a078395a01ad01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 5
   body: {fileID: 448763551}
   spriteRenderer: {fileID: 1983965435}
   idleSprite: {fileID: 6993602971112527918, guid: a9ab1a33761774a7192a06b3bd15cbdd, type: 3}

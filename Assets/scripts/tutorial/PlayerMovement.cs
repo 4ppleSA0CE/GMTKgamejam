@@ -611,7 +611,7 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("Sequence matched");
 
             // New sequence: UP, LEFT, DOWN, RIGHT (when all three conditions are true)
-            if (indianReached && hasDeodorant && useTerminalOneLanding)
+            if (indianReached && useTerminalOneLanding)
             {
                 SceneManager.LoadScene("puzzle 2");
             }
@@ -673,7 +673,7 @@ public class PlayerMovement : MonoBehaviour
             int i3 = (bufferHead - 1 + directionBuffer.Length) % directionBuffer.Length;
 
             // New sequence: UP, LEFT, DOWN, RIGHT (when all three conditions are true)
-            if (indianReached && hasDeodorant && useTerminalOneLanding)
+            if (indianReached && useTerminalOneLanding)
             {
                 return directionBuffer[i0] == Direction.UP &&
                        directionBuffer[i1] == Direction.LEFT &&
