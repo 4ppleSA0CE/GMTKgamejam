@@ -634,11 +634,39 @@ public class PlayerMovement : MonoBehaviour
                     Debug.Log("4 ATTEMPTS WRONG, DEAD");
 
                     // Go back to landing zone if dead
+                                    if (deaths >= 4)
+                {
+                    Debug.Log("4 ATTEMPTS WRONG, DEAD");
+
+                    // Go back to landing zone if dead
                     SceneManager.LoadScene("Landing zone");
 
                     // Reset
                     attempts = 0;
                     deaths = 0;
+                }
+                }
+
+->
+
+                if (deaths >= 4)
+                {
+                    Debug.Log("4 ATTEMPTS WRONG, DEAD");
+
+                    // Go back to landing zone if dead
+                    if (SceneTransitionManager.Instance != null)
+                    {
+                        SceneTransitionManager.Instance.LoadSceneWithFade("Landing zone");
+                    }
+                    else
+                    {
+                        SceneManager.LoadScene("Landing zone");
+                    }
+
+                    // Reset
+                    attempts = 0;
+                    deaths = 0;
+                }
                 }
             }
         }

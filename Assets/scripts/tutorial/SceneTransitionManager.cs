@@ -10,6 +10,9 @@ public class SceneTransitionManager : MonoBehaviour
     public float fadeDuration = 2f;
     public Color fadeColor = Color.black;
     
+    [Header("Transition Image")]
+    public GameObject transitionImage; // Assign the image you want to show during transition
+    
     private Canvas fadeCanvas;
     private Image fadeImage;
     private bool isTransitioning = false;
@@ -97,6 +100,13 @@ public class SceneTransitionManager : MonoBehaviour
     {
         isTransitioning = true;
         
+        // Activate the transition image if assigned
+        if (transitionImage != null)
+        {
+            transitionImage.SetActive(true);
+            Debug.Log("Transition image activated");
+        }
+        
         // Fade out
         float elapsedTime = 0f;
         while (elapsedTime < fadeDuration)
@@ -120,6 +130,13 @@ public class SceneTransitionManager : MonoBehaviour
     // This method will be called when a new scene loads
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        // Deactivate the transition image when new scene loads
+        if (transitionImage != null)
+        {
+            transitionImage.SetActive(false);
+            Debug.Log("Transition image deactivated");
+        }
+        
         if (fadeImage != null)
         {
             // Ensure we start completely black
