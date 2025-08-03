@@ -26,6 +26,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TerminalOne/TerminalOne.unity
     guid: 4d08fbf9566317a478579786c3231a5f
+  - enabled: 1
+    path: Assets/Scenes/EndScene/EndScene.unity
+    guid: 733ac7b1222134c87bef1ed8abbdcbfc
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

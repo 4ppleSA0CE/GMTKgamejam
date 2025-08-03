@@ -22,6 +22,7 @@ public class Puzzle2Manager : MonoBehaviour
     [Header("Piece Found UI")]
     public GameObject piece1Image; // Image for first piece found
     public GameObject piece2Image; // Image for second piece found
+    public GameObject piece3Image; // Image for third piece found
     public float pieceImageDisplayTime = 2f; // How long to show each piece image
 
     [Header("Inventory UI")]
@@ -132,6 +133,12 @@ public class Puzzle2Manager : MonoBehaviour
             SetCanvasSortingOrder(piece2Image, 300);
         }
 
+        if (piece3Image != null)
+        {
+            piece3Image.SetActive(false);
+            SetCanvasSortingOrder(piece3Image, 300);
+        }
+
         Debug.Log("Piece found images hidden at start");
     }
 
@@ -158,6 +165,10 @@ public class Puzzle2Manager : MonoBehaviour
             case 2:
                 imageToShow = piece2Image;
                 Debug.Log("Showing image for piece 2");
+                break;
+            case 3:
+                imageToShow = piece3Image;
+                Debug.Log("Showing image for piece 3");
                 break;
             default:
                 Debug.LogWarning("Unknown piece number: " + pieceNumber);
