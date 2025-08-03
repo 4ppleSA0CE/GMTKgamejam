@@ -17,6 +17,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Maze/maze.unity
     guid: 4104e7cf7b22a48e5b6b1d3d03339595
+  - enabled: 1
+    path: Assets/Scenes/TerminalOne/TerminalOne.unity
+    guid: 4d08fbf9566317a478579786c3231a5f
+  - enabled: 1
+    path: Assets/Scenes/Deoderant/Deoderant.unity
+    guid: 6e3c6e51a51433d429b11996d099ec96
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
