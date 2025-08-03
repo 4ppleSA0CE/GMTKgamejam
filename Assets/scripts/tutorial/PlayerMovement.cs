@@ -507,10 +507,30 @@ public class PlayerMovement : MonoBehaviour
         {
             // Store the exit direction for spawn positioning
             lastExitDirection = exitDirection;
-            Debug.Log($"TerminalOne exit detected: {exitDirection}, transitioning to maze");
-
-            // Instantly transition to maze scene
-            SceneManager.LoadScene("maze");
+            
+            if (exitDirection == Direction.DOWN)
+            {
+                // If exiting bottom, go to Puzzle 1 scene at specified coordinates
+                Debug.Log($"TerminalOne exit detected: {exitDirection}, transitioning to Puzzle 1");
+                
+                // Set the spawn position for Puzzle 1 scene
+                Vector3 spawnPosition = new Vector3(-5.57f, 3.41f, transform.position.z);
+                transform.position = spawnPosition;
+                body.position = new Vector2(spawnPosition.x, spawnPosition.y);
+                
+                Debug.Log($"Player positioned for Puzzle 1 at coordinates: {spawnPosition}");
+                
+                // Instantly transition to Puzzle 1 scene
+                SceneManager.LoadScene("Puzzle 1");
+            }
+            else
+            {
+                // For all other directions, use original logic (maze scene)
+                Debug.Log($"TerminalOne exit detected: {exitDirection}, transitioning to maze");
+                
+                // Instantly transition to maze scene
+                SceneManager.LoadScene("maze");
+            }
         }
     }
 

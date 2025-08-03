@@ -2898,6 +2898,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   background: {fileID: 1996806176}
   backgroundMusic: {fileID: 8300000, guid: 31a3fc983136b7347bc931c16cfd6486, type: 3}
+  backgroundVolume: 0.3
 --- !u!4 &1884991156
 Transform:
   m_ObjectHideFlags: 0
