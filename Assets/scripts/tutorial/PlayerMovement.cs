@@ -37,8 +37,6 @@ public class PlayerMovement : MonoBehaviour
     public string nextSceneName = "Landing zone"; // Change this to your next scene name
     public float fadeDuration = 2f;
 
-    private bool indianReached = false;
-
     int attempts = 0;
     int deaths = 0;
 
