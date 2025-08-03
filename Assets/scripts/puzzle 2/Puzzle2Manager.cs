@@ -12,6 +12,7 @@ public class Puzzle2Manager : MonoBehaviour
 
     [Header("Scene Management")]
     public string landingZoneScene = "Terminalone landing";
+    public string endSceneName = "EndScene";
     public float sceneTransitionDelay = 2f;
     public float fadeDuration = 2f;
 
@@ -46,6 +47,7 @@ public class Puzzle2Manager : MonoBehaviour
         SetupFadeCanvas();
         SetupGameOverImage();
         SetupInventoryImages();
+        EnsureSceneTransitionManager();
     }
 
     void InitializePuzzle()
@@ -291,8 +293,16 @@ public class Puzzle2Manager : MonoBehaviour
         gameWon = true;
         Debug.Log("Congratulations! You found all " + piecesToFind + " pieces!");
 
-        // Just fade to black without loading a new scene
-        StartCoroutine(FadeToBlack());
+        // Transition to EndScene using the SceneTransitionManager
+        if (SceneTransitionManager.Instance != null)
+        {
+            SceneTransitionManager.Instance.LoadSceneWithFade(endSceneName);
+        }
+        else
+        {
+            // Fallback: use local fade system if SceneTransitionManager is not available
+            StartCoroutine(FadeOutAndLoadScene(endSceneName));
+        }
     }
 
     void GameLost()
@@ -412,6 +422,22 @@ public class Puzzle2Manager : MonoBehaviour
             inventoryPiece3.SetActive(true);
             inventoryPiece2.SetActive(false);
             Debug.Log("Inventory updated: Piece 3 shown, Piece 2 hidden");
+        }
+    }
+
+    void EnsureSceneTransitionManager()
+    {
+        // Check if SceneTransitionManager already exists
+        if (SceneTransitionManager.Instance == null)
+        {
+            // Create a new GameObject with SceneTransitionManager
+            GameObject transitionManagerObj = new GameObject("SceneTransitionManager");
+            transitionManagerObj.AddComponent<SceneTransitionManager>();
+            Debug.Log("Created SceneTransitionManager for puzzle 2 scene");
+        }
+        else
+        {
+            Debug.Log("SceneTransitionManager already exists");
         }
     }
 } 

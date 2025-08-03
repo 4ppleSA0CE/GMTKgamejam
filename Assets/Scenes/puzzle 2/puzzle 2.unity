@@ -5156,8 +5156,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   totalTrashCans: 15
   piecesToFind: 3
-  maxTries: 10
+  maxTries: 15
   landingZoneScene: Terminalone landing
+  endSceneName: EndScene
   sceneTransitionDelay: 2
   fadeDuration: 2
   gameOverImage: {fileID: 864901336}
