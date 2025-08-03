@@ -347,7 +347,7 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log($"TerminalOne exit detected: {exitDirection}, transitioning to maze");
 
             // Instantly transition to maze scene
-            SceneManager.LoadScene("Landing zone");
+            SceneManager.LoadScene("maze");
         }
     }
 
