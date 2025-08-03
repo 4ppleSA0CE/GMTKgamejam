@@ -18,6 +18,21 @@ public class Deoderant : MonoBehaviour
 
     public void OnInteract()
     {
-        deoderantObject.SetActive(true);
+        // Add deodorant to global inventory
+        if (GlobalInventoryManager.Instance != null)
+        {
+            GlobalInventoryManager.Instance.AddDeodorant();
+        }
+        
+        // Hide the deodorant object since it's now collected
+        if (deoderantObject != null)
+        {
+            deoderantObject.SetActive(false);
+        }
+        
+        // Hide this interactable object
+        gameObject.SetActive(false);
+        
+        Debug.Log("Deodorant collected and added to inventory!");
     }
 }

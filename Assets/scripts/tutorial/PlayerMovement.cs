@@ -27,7 +27,8 @@ public class PlayerMovement : MonoBehaviour
 
     // Flag for when indian lady is reached
     // Change maze correct sequence to clockwise circle when reached
-    private static bool indianReached = false;
+
+    public bool indianReached = false;
 
     private Direction[] directionBuffer = new Direction[4];
     private int bufferHead = 0;
@@ -42,18 +43,50 @@ public class PlayerMovement : MonoBehaviour
 
     // Singleton so only one object is created
     private static PlayerMovement instance;
+    
+    // Property to check deodorant state from GlobalInventoryManager
+    private bool hasDeodorant
+    {
+        get
+        {
+            if (GlobalInventoryManager.Instance != null)
+            {
+                return GlobalInventoryManager.Instance.HasDeodorant();
+            }
+            return false;
+        }
+    }
 
     void Awake()
     {
+        Debug.Log("PlayerMovement Awake called for: " + gameObject.name + " in scene: " + gameObject.scene.name);
+        
+        // Check if this is a scene-specific player (like in Deoderant scene)
+        string currentScene = SceneManager.GetActiveScene().name;
+        
         if (instance != null && instance != this)
         {
-            // Avoid duplicates
-            Destroy(gameObject);
-            return;
+            // If we already have a persistent instance, handle this carefully
+            if (currentScene == "Deoderant")
+            {
+                // In Deoderant scene, if there's already a persistent player, 
+                // destroy this scene-specific one and let the persistent one handle it
+                Debug.Log("Destroying scene-specific player in Deoderant scene: " + gameObject.name);
+                Destroy(gameObject);
+                return;
+            }
+            else
+            {
+                // For other scenes, destroy this duplicate
+                Debug.Log("Destroying duplicate PlayerMovement: " + gameObject.name);
+                Destroy(gameObject);
+                return;
+            }
         }
 
         instance = this;
         DontDestroyOnLoad(gameObject); // Prevent state variables from being reset when changing scenes
+        Debug.Log("PlayerMovement instance set and DontDestroyOnLoad applied to: " + gameObject.name);
     }
 
     // Start is called before the first execution of Update after the MonoBehaviour is created
@@ -65,11 +98,15 @@ public class PlayerMovement : MonoBehaviour
             spriteRenderer.sprite = idleSprite;
         }
         
-        // Handle spawn positioning for maze scene
+        // Handle spawn positioning for different scenes
         string currentScene = SceneManager.GetActiveScene().name;
         if (currentScene == "maze")
         {
             PositionPlayerBasedOnExitDirection();
+        }
+        else if (currentScene == "Landing zone")
+        {
+            PositionPlayerInLandingZone();
         }
     }
 
@@ -80,7 +117,7 @@ public class PlayerMovement : MonoBehaviour
         UpdateSprite();
         FlipCharacterX();
 
-        // Debug.Log("Indian reached: " + indianReached);
+        Debug.Log("Indian reached: " + indianReached);
 
         string currentScene = SceneManager.GetActiveScene().name;
 
@@ -452,6 +489,32 @@ public class PlayerMovement : MonoBehaviour
         transform.position = new Vector3(spawnPosition.x, spawnPosition.y, transform.position.z);
         Debug.Log($"Player spawned at position: {spawnPosition} based on exit direction: {lastExitDirection}");
     }
+    
+    private void PositionPlayerInLandingZone()
+    {
+        // Position player at a safe location in the landing zone to avoid immediate exit
+        Vector3 spawnPosition = Vector3.zero;
+        
+        // If coming from deodorant scene, position at center
+        if (lastExitDirection == Direction.LEFT || lastExitDirection == Direction.RIGHT)
+        {
+            // If coming from left or right, position at center
+            spawnPosition = new Vector3(0f, 0f, 0f);
+        }
+        else if (lastExitDirection == Direction.UP)
+        {
+            // If coming from top, position slightly below center
+            spawnPosition = new Vector3(0f, -2f, 0f);
+        }
+        else if (lastExitDirection == Direction.DOWN)
+        {
+            // If coming from bottom, position slightly above center
+            spawnPosition = new Vector3(0f, 2f, 0f);
+        }
+        
+        transform.position = spawnPosition;
+        Debug.Log($"Player positioned in Landing Zone at {spawnPosition} based on exit direction: {lastExitDirection}");
+    }
 
     private void AddDirection(Direction dir)
     {
@@ -478,7 +541,14 @@ public class PlayerMovement : MonoBehaviour
 
             if (indianReached)
             {
-                SceneManager.LoadScene("Deoderant");
+                if (hasDeodorant)
+                {
+                    SceneManager.LoadScene("TerminalOne");
+                }
+                else{
+                    SceneManager.LoadScene("Deoderant");
+                }
+                
             }
             else
             {
@@ -521,6 +591,13 @@ public class PlayerMovement : MonoBehaviour
 
             if (indianReached)
             {
+                if (hasDeodorant)
+                {
+                    return directionBuffer[i0] == Direction.DOWN &&
+                       directionBuffer[i1] == Direction.DOWN &&
+                       directionBuffer[i2] == Direction.DOWN &&
+                       directionBuffer[i3] == Direction.DOWN;
+                }
                 return directionBuffer[i0] == Direction.UP &&
                        directionBuffer[i1] == Direction.LEFT &&
                        directionBuffer[i2] == Direction.DOWN &&
