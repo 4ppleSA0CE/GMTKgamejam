@@ -33,6 +33,8 @@ public class PlayerMovement : MonoBehaviour
     public string nextSceneName = "Landing zone"; // Change this to your next scene name
     public float fadeDuration = 2f;
 
+    private bool indianReached = false;
+
     int attempts = 0;
     int deaths = 0;
 
@@ -80,6 +82,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (currentScene == "terminalone landing")
         {
+            indianReached = true;
             TerminalOneLandingExitDetect();
         }
         else if (currentScene == "puzzle 2")
@@ -403,43 +406,31 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log(directionBuffer[index]);
         }
 
-        // Check for RIGHT, DOWN, LEFT, UP
-        if (bufferCount >= 4)
+        if (CheckCorrectMazeSequence())
         {
-            int i0 = (bufferHead - 4 + directionBuffer.Length) % directionBuffer.Length;
-            int i1 = (bufferHead - 3 + directionBuffer.Length) % directionBuffer.Length;
-            int i2 = (bufferHead - 2 + directionBuffer.Length) % directionBuffer.Length;
-            int i3 = (bufferHead - 1 + directionBuffer.Length) % directionBuffer.Length;
+            Debug.Log("Sequence matched");
+            SceneManager.LoadScene("TerminalOne");
+        }
+        else
+        {
+            attempts++;
+            Debug.Log("Sequence WRONG: " + attempts + "/4");
 
-            if (directionBuffer[i0] == Direction.DOWN &&
-                directionBuffer[i1] == Direction.DOWN &&
-                directionBuffer[i2] == Direction.DOWN &&
-                directionBuffer[i3] == Direction.DOWN)
+            if (attempts >= 4)
             {
-                Debug.Log("Sequence matched");
-                SceneManager.LoadScene("TerminalOne");
-            }
-            else
-            {
-                attempts++;
-                Debug.Log("Sequence WRONG: " + attempts + "/4");
+                attempts = 0;
+                deaths++;
 
-                if (attempts >= 4)
+                if (deaths >= 4)
                 {
+                    Debug.Log("4 ATTEMPTS WRONG, DEAD");
+
+                    // Go back to landing zone if dead
+                    SceneManager.LoadScene("Landing zone");
+
+                    // Reset
                     attempts = 0;
-                    deaths++;
-
-                    if (deaths >= 4)
-                    {
-                        Debug.Log("4 ATTEMPTS WRONG, DEAD");
-
-                        // Go back to landing zone if dead
-                        SceneManager.LoadScene("Landing zone");
-
-                        // Reset
-                        attempts = 0;
-                        deaths = 0;
-                    }
+                    deaths = 0;
                 }
             }
         }
