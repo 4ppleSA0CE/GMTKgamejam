@@ -64,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
         {
             spriteRenderer.sprite = idleSprite;
         }
-
+        
         // Handle spawn positioning for maze scene
         string currentScene = SceneManager.GetActiveScene().name;
         if (currentScene == "maze")
@@ -379,9 +379,9 @@ public class PlayerMovement : MonoBehaviour
         // Get camera bounds
         Camera cam = Camera.main;
         if (cam == null) return;
-
+        
         Vector3 spawnPosition = Vector3.zero;
-
+        
         switch (lastExitDirection)
         {
             case Direction.LEFT:
@@ -401,7 +401,7 @@ public class PlayerMovement : MonoBehaviour
                 spawnPosition = cam.ViewportToWorldPoint(new Vector3(0.5f, 1f, 0f));
                 break;
         }
-
+        
         // Set player position
         transform.position = new Vector3(spawnPosition.x, spawnPosition.y, transform.position.z);
         Debug.Log($"Player spawned at position: {spawnPosition} based on exit direction: {lastExitDirection}");
