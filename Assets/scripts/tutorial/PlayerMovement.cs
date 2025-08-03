@@ -82,6 +82,10 @@ public class PlayerMovement : MonoBehaviour
         {
             TerminalOneLandingExitDetect();
         }
+        else if (currentScene == "puzzle 2")
+        {
+            Puzzle2ExitDetect();
+        }
         else
         {
             Debug.Log("Unknown scene: " + currentScene);
@@ -179,6 +183,48 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void Puzzle2ExitDetect()
+    {
+        Vector3 viewPos = Camera.main.WorldToViewportPoint(body.position);
+        bool shouldTransition = false;
+        Direction exitDirection = Direction.RIGHT;
+
+        if (viewPos.x < 0f)
+        {
+            // Exited left
+            exitDirection = Direction.LEFT;
+            shouldTransition = true;
+        }
+        else if (viewPos.x > 1f)
+        {
+            // Exited right
+            exitDirection = Direction.RIGHT;
+            shouldTransition = true;
+        }
+        else if (viewPos.y < 0f)
+        {
+            // Exited bottom
+            exitDirection = Direction.DOWN;
+            shouldTransition = true;
+        }
+        else if (viewPos.y > 1f)
+        {
+            // Exited top
+            exitDirection = Direction.UP;
+            shouldTransition = true;
+        }
+
+        if (shouldTransition)
+        {
+            // Store the exit direction for spawn positioning
+            lastExitDirection = exitDirection;
+            Debug.Log($"Puzzle 2 exit detected: {exitDirection}, transitioning to landing zone");
+
+            // Instantly transition to maze scene
+            SceneManager.LoadScene("Landing zone");
+        }
+    }
+
     private void LandingZoneExitDetect()
     {
         Vector3 viewPos = Camera.main.WorldToViewportPoint(body.position);
@@ -215,7 +261,7 @@ public class PlayerMovement : MonoBehaviour
             // Store the exit direction for spawn positioning
             lastExitDirection = exitDirection;
             Debug.Log($"Landing zone exit detected: {exitDirection}, transitioning to maze");
-            
+
             // Instantly transition to maze scene
             SceneManager.LoadScene("maze");
         }
