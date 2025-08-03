@@ -25,6 +25,10 @@ public class PlayerMovement : MonoBehaviour
     private bool isMoving = false;
     private float lastHorizontalInput = 0f;
 
+    // Flag for when indian lady is reached
+    // Change maze correct sequence to clockwise circle when reached
+    private static bool indianReached = false;
+
     private Direction[] directionBuffer = new Direction[4];
     private int bufferHead = 0;
     private int bufferCount = 0;
@@ -37,6 +41,22 @@ public class PlayerMovement : MonoBehaviour
 
     int attempts = 0;
     int deaths = 0;
+
+    // Singleton so only one object is created
+    private static PlayerMovement instance;
+
+    void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            // Avoid duplicates
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
+        DontDestroyOnLoad(gameObject); // Prevent state variables from being reset when changing scenes
+    }
 
     // Start is called before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -62,6 +82,8 @@ public class PlayerMovement : MonoBehaviour
         UpdateSprite();
         FlipCharacterX();
 
+        // Debug.Log("Indian reached: " + indianReached);
+
         string currentScene = SceneManager.GetActiveScene().name;
 
         if (currentScene == "Tutorial")
@@ -78,11 +100,11 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (currentScene == "TerminalOne")
         {
+            indianReached = true;
             TerminalOneExitDetect();
         }
         else if (currentScene == "terminalone landing")
         {
-            indianReached = true;
             TerminalOneLandingExitDetect();
         }
         else if (currentScene == "puzzle 2")
@@ -409,7 +431,15 @@ public class PlayerMovement : MonoBehaviour
         if (CheckCorrectMazeSequence())
         {
             Debug.Log("Sequence matched");
-            SceneManager.LoadScene("TerminalOne");
+
+            if (indianReached)
+            {
+                SceneManager.LoadScene("Deoderant");
+            }
+            else
+            {
+                SceneManager.LoadScene("TerminalOne");
+            }
         }
         else
         {
@@ -435,7 +465,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-    
+
     private bool CheckCorrectMazeSequence()
     {
         if (bufferCount >= 4)
