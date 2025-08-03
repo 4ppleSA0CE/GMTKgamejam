@@ -25,6 +25,8 @@ public class PlayerMovement : MonoBehaviour
     private bool isMoving = false;
     private float lastHorizontalInput = 0f;
 
+    private bool useTerminalOneLanding = false;
+
     // Flag for when indian lady is reached
     // Change maze correct sequence to clockwise circle when reached
 
@@ -156,6 +158,11 @@ public class PlayerMovement : MonoBehaviour
         else if (currentScene == "terminalone landing")
         {
             TerminalOneLandingExitDetect();
+        }
+        else if (currentScene == "Puzzle 1")
+        {
+            // Set the boolean to true when entering puzzle 1 scene
+            useTerminalOneLanding = true;
         }
         else if (currentScene == "puzzle 2")
         {
@@ -603,7 +610,12 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.Log("Sequence matched");
 
-            if (indianReached)
+            // New sequence: UP, LEFT, DOWN, RIGHT (when all three conditions are true)
+            if (indianReached && hasDeodorant && useTerminalOneLanding)
+            {
+                SceneManager.LoadScene("puzzle 2");
+            }
+            else if (indianReached)
             {
                 if (hasDeodorant)
                 {
@@ -629,7 +641,7 @@ public class PlayerMovement : MonoBehaviour
                 attempts = 0;
                 deaths++;
 
-                if (deaths >= 4)
+                if (deaths >= 4 && !useTerminalOneLanding)
                 {
                     Debug.Log("4 ATTEMPTS WRONG, DEAD");
 
@@ -660,7 +672,15 @@ public class PlayerMovement : MonoBehaviour
             int i2 = (bufferHead - 2 + directionBuffer.Length) % directionBuffer.Length;
             int i3 = (bufferHead - 1 + directionBuffer.Length) % directionBuffer.Length;
 
-            if (indianReached)
+            // New sequence: UP, LEFT, DOWN, RIGHT (when all three conditions are true)
+            if (indianReached && hasDeodorant && useTerminalOneLanding)
+            {
+                return directionBuffer[i0] == Direction.UP &&
+                       directionBuffer[i1] == Direction.LEFT &&
+                       directionBuffer[i2] == Direction.DOWN &&
+                       directionBuffer[i3] == Direction.RIGHT;
+            }
+            else if (indianReached)
             {
                 if (hasDeodorant)
                 {
