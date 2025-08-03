@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Indian : MonoBehaviour
 {
+    public GameObject indianObject;
+
     [Header("UI Elements")]
     public GameObject noDeodorantMessage; // Assign the message image in inspector
     
@@ -22,14 +24,17 @@ public class Indian : MonoBehaviour
         // Hide character if player has deodorant
         if (GlobalInventoryManager.Instance != null && GlobalInventoryManager.Instance.HasDeodorant())
         {
-            gameObject.SetActive(false);
+            indianObject.SetActive(false);
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (GlobalInventoryManager.Instance.HasDeodorant())
+        {
+            indianObject.SetActive(false);
+        }
     }
     
     // This method is called by the interaction zone when player presses space

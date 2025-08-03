@@ -213,6 +213,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   background: {fileID: 1871189843}
   backgroundMusic: {fileID: 8300000, guid: 31a3fc983136b7347bc931c16cfd6486, type: 3}
+  backgroundVolume: 0.3
 --- !u!4 &438370805
 Transform:
   m_ObjectHideFlags: 0
@@ -1276,6 +1277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da563d1050bb9574681809fc714de81d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  indianObject: {fileID: 2091309997}
   noDeodorantMessage: {fileID: 1619768063}
   messageDisplayTime: 2
 --- !u!1 &2061605808
