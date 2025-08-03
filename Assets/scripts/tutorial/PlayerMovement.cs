@@ -132,7 +132,7 @@ public class PlayerMovement : MonoBehaviour
         UpdateSprite();
         FlipCharacterX();
 
-        Debug.Log("Indian reached: " + indianReached);
+        // Debug.Log("Indian reached: " + indianReached);
 
         string currentScene = SceneManager.GetActiveScene().name;
 

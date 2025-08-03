@@ -11,10 +11,18 @@ public class Indian : MonoBehaviour
     
     void Start()
     {
+        Debug.Log("Indian character Start() called");
+        
         // Ensure the message is hidden at start
         if (noDeodorantMessage != null)
         {
             noDeodorantMessage.SetActive(false);
+        }
+        
+        // Hide character if player has deodorant
+        if (GlobalInventoryManager.Instance != null && GlobalInventoryManager.Instance.HasDeodorant())
+        {
+            gameObject.SetActive(false);
         }
     }
 
