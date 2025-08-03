@@ -109,6 +109,10 @@ public class PlayerMovement : MonoBehaviour
         {
             Puzzle2ExitDetect();
         }
+        else if (currentScene == "Deoderant")
+        {
+            DeoderantExitDetect();
+        }
         else
         {
             // Debug.Log("Unknown scene: " + currentScene);
@@ -203,6 +207,48 @@ public class PlayerMovement : MonoBehaviour
         {
             body.position = new Vector2(worldPos.x, worldPos.y);
             LogLast4Exits();
+        }
+    }
+
+    private void DeoderantExitDetect()
+    {
+        Vector3 viewPos = Camera.main.WorldToViewportPoint(body.position);
+        bool shouldTransition = false;
+        Direction exitDirection = Direction.RIGHT;
+
+        if (viewPos.x < 0f)
+        {
+            // Exited left
+            exitDirection = Direction.LEFT;
+            shouldTransition = true;
+        }
+        else if (viewPos.x > 1f)
+        {
+            // Exited right
+            exitDirection = Direction.RIGHT;
+            shouldTransition = true;
+        }
+        else if (viewPos.y < 0f)
+        {
+            // Exited bottom
+            exitDirection = Direction.DOWN;
+            shouldTransition = true;
+        }
+        else if (viewPos.y > 1f)
+        {
+            // Exited top
+            exitDirection = Direction.UP;
+            shouldTransition = true;
+        }
+
+        if (shouldTransition)
+        {
+            // Store the exit direction for spawn positioning
+            lastExitDirection = exitDirection;
+            Debug.Log($"Deoderant exit detected: {exitDirection}, transitioning to landing zone");
+
+            // Instantly transition to maze scene
+            SceneManager.LoadScene("Landing zone");
         }
     }
 
