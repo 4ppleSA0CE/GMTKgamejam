@@ -44,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
         {
             spriteRenderer.sprite = idleSprite;
         }
-        
+
         // Handle spawn positioning for maze scene
         string currentScene = SceneManager.GetActiveScene().name;
         if (currentScene == "maze")
@@ -356,9 +356,9 @@ public class PlayerMovement : MonoBehaviour
         // Get camera bounds
         Camera cam = Camera.main;
         if (cam == null) return;
-        
+
         Vector3 spawnPosition = Vector3.zero;
-        
+
         switch (lastExitDirection)
         {
             case Direction.LEFT:
@@ -378,7 +378,7 @@ public class PlayerMovement : MonoBehaviour
                 spawnPosition = cam.ViewportToWorldPoint(new Vector3(0.5f, 1f, 0f));
                 break;
         }
-        
+
         // Set player position
         transform.position = new Vector3(spawnPosition.x, spawnPosition.y, transform.position.z);
         Debug.Log($"Player spawned at position: {spawnPosition} based on exit direction: {lastExitDirection}");
@@ -443,5 +443,33 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
+    }
+    
+    private bool CheckCorrectMazeSequence()
+    {
+        if (bufferCount >= 4)
+        {
+            int i0 = (bufferHead - 4 + directionBuffer.Length) % directionBuffer.Length;
+            int i1 = (bufferHead - 3 + directionBuffer.Length) % directionBuffer.Length;
+            int i2 = (bufferHead - 2 + directionBuffer.Length) % directionBuffer.Length;
+            int i3 = (bufferHead - 1 + directionBuffer.Length) % directionBuffer.Length;
+
+            if (indianReached)
+            {
+                return directionBuffer[i0] == Direction.UP &&
+                       directionBuffer[i1] == Direction.LEFT &&
+                       directionBuffer[i2] == Direction.DOWN &&
+                       directionBuffer[i3] == Direction.RIGHT;
+            }
+            else
+            {
+                return directionBuffer[i0] == Direction.DOWN &&
+                       directionBuffer[i1] == Direction.DOWN &&
+                       directionBuffer[i2] == Direction.DOWN &&
+                       directionBuffer[i3] == Direction.DOWN;
+            }
+        }
+
+        return false;
     }
 }
