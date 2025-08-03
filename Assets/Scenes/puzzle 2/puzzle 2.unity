@@ -4701,6 +4701,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   background: {fileID: 363720515}
   backgroundMusic: {fileID: 8300000, guid: 31a3fc983136b7347bc931c16cfd6486, type: 3}
+  backgroundVolume: 0.3
 --- !u!4 &1480057697
 Transform:
   m_ObjectHideFlags: 0
@@ -4887,7 +4888,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   totalTrashCans: 15
   piecesToFind: 3
-  maxTries: 15
+  maxTries: 10
   landingZoneScene: Terminalone landing
   endSceneName: EndScene
   sceneTransitionDelay: 2
