@@ -244,7 +244,7 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log($"Puzzle 2 exit detected: {exitDirection}, transitioning to landing zone");
 
             // Instantly transition to maze scene
-            SceneManager.LoadScene("Landing zone");
+            SceneManager.LoadScene("Terminalone landing");
         }
     }
 
