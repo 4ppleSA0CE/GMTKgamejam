@@ -23,7 +23,8 @@ public class Puzzle2Manager : MonoBehaviour
     public GameObject piece1Image; // Image for first piece found
     public GameObject piece2Image; // Image for second piece found
     public GameObject piece3Image; // Image for third piece found
-    public float pieceImageDisplayTime = 2f; // How long to show each piece image
+    public GameObject noPieceFoundImage; // Image for when no piece is found in trash can
+    public float pieceImageDisplayTime = 0.5f; // How long to show each piece image
 
     [Header("Inventory UI")]
     public GameObject inventoryPiece1; // Shown when first piece is found
@@ -139,6 +140,12 @@ public class Puzzle2Manager : MonoBehaviour
             SetCanvasSortingOrder(piece3Image, 300);
         }
 
+        if (noPieceFoundImage != null)
+        {
+            noPieceFoundImage.SetActive(false);
+            SetCanvasSortingOrder(noPieceFoundImage, 300);
+        }
+
         Debug.Log("Piece found images hidden at start");
     }
 
@@ -182,6 +189,19 @@ public class Puzzle2Manager : MonoBehaviour
         else
         {
             Debug.LogWarning("Piece " + pieceNumber + " image not assigned in inspector!");
+        }
+    }
+
+    void ShowNoPieceFoundImage()
+    {
+        if (noPieceFoundImage != null)
+        {
+            StartCoroutine(ShowImageForDuration(noPieceFoundImage));
+            Debug.Log("Showing 'no piece found' image");
+        }
+        else
+        {
+            Debug.LogWarning("No piece found image not assigned in inspector!");
         }
     }
 
@@ -264,13 +284,19 @@ public class Puzzle2Manager : MonoBehaviour
         Debug.Log("=== GARBAGE PIECE PLACEMENT COMPLETE ===");
     }
 
-    public void TrashCanSearched()
+    public void TrashCanSearched(bool pieceFound)
     {
         if (gameWon || gameLost) return;
 
         currentTries--;
 
         Debug.Log("Try used! " + currentTries + "/" + maxTries + " tries remaining.");
+
+        // Only show "no piece found" image if no piece was actually found
+        if (!pieceFound)
+        {
+            ShowNoPieceFoundImage();
+        }
 
         // Check if out of tries
         if (currentTries <= 0)

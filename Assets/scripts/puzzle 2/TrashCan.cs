@@ -59,7 +59,7 @@ public class TrashCan : MonoBehaviour
         // Notify puzzle manager about the search
         if (puzzleManager != null)
         {
-            puzzleManager.TrashCanSearched();
+            puzzleManager.TrashCanSearched(containsGarbagePiece);
         }
     }
     
