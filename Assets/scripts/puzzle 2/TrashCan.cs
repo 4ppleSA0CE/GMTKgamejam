@@ -12,10 +12,23 @@ public class TrashCan : MonoBehaviour
     {
         // Find the puzzle manager
         puzzleManager = FindFirstObjectByType<Puzzle2Manager>();
+        
+        // Debug output to show which trash cans have garbage pieces
+        if (containsGarbagePiece)
+        {
+            Debug.Log("TRASH CAN SETUP: " + gameObject.name + " CONTAINS a garbage piece!");
+        }
+        else
+        {
+            Debug.Log("TRASH CAN SETUP: " + gameObject.name + " is EMPTY (no garbage piece)");
+        }
     }
     
     public void OnInteract()
     {
+        Debug.Log("=== TRASH CAN INTERACTION ===");
+        Debug.Log("Player interacted with: " + gameObject.name);
+        
         if (hasBeenSearched)
         {
             Debug.Log("This trash can has already been searched!");
@@ -24,11 +37,12 @@ public class TrashCan : MonoBehaviour
         
         // Mark as searched
         hasBeenSearched = true;
+        Debug.Log("Trash can marked as searched: " + gameObject.name);
         
         if (containsGarbagePiece)
         {
             // Found a piece!
-            Debug.Log("Found a garbage piece!");
+            Debug.Log("SUCCESS! Found a garbage piece in: " + gameObject.name);
             
             // Notify puzzle manager
             if (puzzleManager != null)
@@ -39,7 +53,7 @@ public class TrashCan : MonoBehaviour
         else
         {
             // Empty trash can
-            Debug.Log("This trash can is empty.");
+            Debug.Log("This trash can is empty: " + gameObject.name);
         }
         
         // Notify puzzle manager about the search
@@ -54,11 +68,22 @@ public class TrashCan : MonoBehaviour
     {
         containsGarbagePiece = hasPiece;
         hasBeenSearched = false;
+        
+        // Debug output when trash can is set up
+        if (hasPiece)
+        {
+            Debug.Log("TRASH CAN SETUP: " + gameObject.name + " assigned a GARBAGE PIECE");
+        }
+        else
+        {
+            Debug.Log("TRASH CAN SETUP: " + gameObject.name + " assigned as EMPTY");
+        }
     }
     
     // Method to reset the trash can for a new puzzle
     public void ResetTrashCan()
     {
         hasBeenSearched = false;
+        Debug.Log("Trash can reset: " + gameObject.name);
     }
 } 
