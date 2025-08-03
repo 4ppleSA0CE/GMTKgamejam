@@ -4980,7 +4980,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   totalTrashCans: 15
   piecesToFind: 3
-  maxTries: 15
+  maxTries: 10
   landingZoneScene: Terminalone landing
   sceneTransitionDelay: 2
   fadeDuration: 2
