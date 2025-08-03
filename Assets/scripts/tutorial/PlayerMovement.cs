@@ -567,7 +567,7 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log($"Player spawned at position: {spawnPosition} based on exit direction: {lastExitDirection}");
     }
     
-    private void PositionPlayerInLandingZone()
+    public void PositionPlayerInLandingZone()
     {
         // Always spawn the character at the specified coordinates when entering the landing zone
         Vector3 spawnPosition = new Vector3(1.329138f, 3.818122f, transform.position.z);
@@ -633,14 +633,14 @@ public class PlayerMovement : MonoBehaviour
                 {
                     Debug.Log("4 ATTEMPTS WRONG, DEAD");
 
-                    // Go back to landing zone if dead
+                    // Transition to exhaust scene when dead
                     if (SceneTransitionManager.Instance != null)
                     {
-                        SceneTransitionManager.Instance.LoadSceneWithFade("Landing zone");
+                        SceneTransitionManager.Instance.LoadSceneWithFade("exhaust");
                     }
                     else
                     {
-                        SceneManager.LoadScene("Landing zone");
+                        SceneManager.LoadScene("exhaust");
                     }
 
                     // Reset
