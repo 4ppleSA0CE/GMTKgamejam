@@ -22,12 +22,7 @@ public class Deoderant : MonoBehaviour
         if (GlobalInventoryManager.Instance != null)
         {
             GlobalInventoryManager.Instance.AddDeodorant();
-        }
-        
-        // Hide the deodorant object since it's now collected
-        if (deoderantObject != null)
-        {
-            deoderantObject.SetActive(false);
+            deoderantObject.SetActive(true);
         }
         
         // Hide this interactable object
