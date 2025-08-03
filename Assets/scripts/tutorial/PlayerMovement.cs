@@ -91,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            Debug.Log("Unknown scene: " + currentScene);
+            // Debug.Log("Unknown scene: " + currentScene);
         }
     }
 
