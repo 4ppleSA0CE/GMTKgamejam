@@ -20,21 +20,22 @@ public class Indian : MonoBehaviour
         {
             noDeodorantMessage.SetActive(false);
         }
-        
+
         // Hide character if player has deodorant
         if (GlobalInventoryManager.Instance != null && GlobalInventoryManager.Instance.HasDeodorant())
         {
             indianObject.SetActive(false);
+            GlobalInventoryManager.Instance.hasDeodorant = false;
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (GlobalInventoryManager.Instance.HasDeodorant())
-        {
-            indianObject.SetActive(false);
-        }
+        // if (GlobalInventoryManager.Instance.HasDeodorant())
+        // {
+        //     indianObject.SetActive(false);
+        // }
     }
     
     // This method is called by the interaction zone when player presses space
@@ -46,8 +47,8 @@ public class Indian : MonoBehaviour
         if (GlobalInventoryManager.Instance != null && GlobalInventoryManager.Instance.HasDeodorant())
         {
             // Player has deodorant - make the character disappear
-            Debug.Log("Player has deodorant - Indian character disappearing!");
-            gameObject.SetActive(false);
+            // Debug.Log("Player has deodorant - Indian character disappearing!");
+            // gameObject.SetActive(false);
         }
         else
         {

@@ -24,7 +24,7 @@ public class DeodorantObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GlobalInventoryManager.Instance != null)
+        if (GlobalInventoryManager.Instance.hasDeodorant)
         {
             gameObject.SetActive(true);
         }
